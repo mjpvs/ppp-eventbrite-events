@@ -1,25 +1,77 @@
 <template>
-  <div>
-    <h1>Events</h1>
+  <div class="container pt-2">
+    <h1>Upcoming PPP Events</h1>
+    <br>
     <div>
-      <button @click='getEvents'>Get Events</button>
-      <button @click='downloadSheet'>Download Sheet</button>
-      <button @click='resetAll'>Reset</button>
+      <button
+        @click='getEvents'
+        class="btn btn-primary"
+      >
+        Update Events
+      </button>
+      <button
+        @click='downloadSheet'
+        class="btn btn-success mx-2"
+      >
+        Download Sheet
+      </button>
+      <button
+        @click='resetAll'
+        class="btn btn-danger"
+      >
+        Reset
+      </button>
     </div>
+    <br>
     <div>
-      <h2>Total: {{ allEvents.length }}</h2>
-      <ul>
-        <li v-for='(event, index) in allEvents' :key='index'>{{ event }}</li>
-      </ul>
+      <form class="mb-4">
+        <div class="form-group">
+          <label for="include-online">Include online events?</label>
+          <input type="checkbox" id="include-online" v-model="includeOnline" class="form-check-input mx-2">
+        </div>
+      </form>
+      <h2>Total: {{ filteredEvents.length }}{{ filteredEvents.length !== allEvents.length ? ` / ${allEvents.length}` : ''}}</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Event Name</td>
+            <td>Event Image</td>
+            <td>Event Info</td>
+            <td>Date</td>
+            <td>Start Time (Local)</td>
+            <td>End Time (Local)</td>
+            <td>Event Location</td>
+            <td>URL</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for='(event, index) in filteredEvents'
+            :key='index'
+          >
+            <td>{{ event['Event Name'] }}</td>
+            <td class="image-cell">{{ event['Event Image'] }}</td>
+            <td>{{ event['Event Info'] }}</td>
+            <td>{{ event['Date (Local)'] }}</td>
+            <td>{{ event['Start Time (Local)'] }}</td>
+            <td>{{ event['End Time (Local)'] }}</td>
+            <td>{{ event['Event Location'] }}</td>
+            <td>{{ event['URL'] }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
 
   const allEvents = ref([]);
   const allEventsRaw = ref([]);
+
+  const includeOnline = ref(true);
+  const includePrivate = ref(true);
 
   let storedEvents = typeof window !== 'undefined' ? localStorage.getItem('events') : null;
 
@@ -112,12 +164,22 @@
     }
   }
 
-  const jsonToCsv = () => {
+  const filteredEvents = computed(() => {
+    return allEvents.value.filter(event => {
+      if (!includeOnline.value && event['Event Location'] === 'Online') {
+        return false;
+      }
+
+      return true;
+    });
+  });
+
+  const jsonToCsv = (events) => {
     let csv = '';
-    let headers = Object.keys(allEvents.value[0]);
+    let headers = Object.keys(events[0]);
     csv += headers.join(',') + '\n';
 
-    allEvents.value.forEach(function (row) {
+    events.forEach(function (row) {
         let data = headers.map(header => JSON.stringify(row[header])).join(',');
         csv += data + '\n';
     });
@@ -126,7 +188,7 @@
   }
 
   const downloadSheet = () => {
-    let csvData = jsonToCsv();
+    let csvData = jsonToCsv(filteredEvents.value);
     let blob = new Blob([csvData], { type: 'text/csv' });
     let url = window.URL.createObjectURL(blob);
     let a = document.createElement('a');
@@ -137,10 +199,29 @@
   }
 </script>
 
-<style>
-  textarea {
-    width: 500px;
-    height: 500px;
-    overflow: scroll;
+<style lang="css">
+  table {
+    max-width: 100%;
+  }
+
+  tr {
+    max-width: 100%;
+  }
+
+  td {
+    overflow-x: hidden;
+  }
+
+  thead td {
+    vertical-align: top;
+  }
+  
+  tbody td {
+    font-size: 0.8rem;
+  }
+
+  .image-cell {
+    display: block;
+    word-break: break-all;
   }
 </style>
