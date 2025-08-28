@@ -15,15 +15,12 @@
       >
         Download Sheet
       </button>
-      <button
-        @click='resetAll'
-        class="btn btn-danger"
-      >
-        Reset
-      </button>
     </div>
     <br>
-    <div>
+    <div v-if="isLoading">
+      Loading...
+    </div>
+    <div v-if="!isLoading">
       <form class="mb-4">
         <div class="form-group">
           <label for="include-online">Include online events?</label>
@@ -65,32 +62,21 @@
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue';
+  import { ref, computed, onMounted } from 'vue';
 
   const allEvents = ref([]);
-  const allEventsRaw = ref([]);
 
   const includeOnline = ref(true);
   const includePrivate = ref(true);
-
-  let storedEvents = typeof window !== 'undefined' ? localStorage.getItem('events') : null;
-
-  if (storedEvents) {
-    storedEvents = JSON.parse(storedEvents);
-
-    if (storedEvents && storedEvents.length) {
-      allEvents.value = storedEvents;
-    }
-  }
+  const isLoading = ref(true);
 
   const resetAll = () => {
     allEvents.value = [];
-    allEventsRaw.value = [];
-
-    typeof window !== 'undefined' ? localStorage.setItem('events', JSON.stringify(allEvents.value)) : null;
   }
 
   const getEvents = async() => {
+    isLoading.value = true;
+    
     resetAll();
 
     await fetch('/api/getEvents')
@@ -98,70 +84,12 @@
         return res.json();
       })
       .then(events => {
-        allEventsRaw.value = events;
+        allEvents.value = events;
+        isLoading.value = false;
       })
       .catch(error => {
         console.log(error);
       });
-
-    processEvents();
-  }
-
-  const processEvents = () => {
-    allEvents.value = [];
-
-    for (let x = 0; x < allEventsRaw.value.length; x++) {
-      const nextEv = allEventsRaw.value[x];
-
-      let address = 'Online';
-
-      if (nextEv.venue && nextEv.venue.address) {
-        const venue = nextEv.venue;
-
-        address = `${venue.name}, ${venue.address.localized_address_display}`;
-      }
-
-      const startDateUTC = new Date(nextEv.start.utc);
-      const endDateUTC = new Date(nextEv.end.utc);
-      const startDateLocal = new Date(nextEv.start.local);
-      const endDateLocal = new Date(nextEv.end.local);
-
-      const dateOptions = {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      };
-      
-      const timeOptions = {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
-      };
-
-      const formattedDateUTC = new Intl.DateTimeFormat('en-GB', dateOptions).format(startDateUTC);
-      const formattedStartTimeUTC = new Intl.DateTimeFormat('en-GB', timeOptions).format(startDateUTC);
-      const formattedEndTimeUTC = new Intl.DateTimeFormat('en-GB', timeOptions).format(endDateUTC);
-      const formattedDateLocal = new Intl.DateTimeFormat('en-GB', dateOptions).format(startDateLocal);
-      const formattedStartTimeLocal = new Intl.DateTimeFormat('en-GB', timeOptions).format(startDateLocal);
-      const formattedEndTimeLocal = new Intl.DateTimeFormat('en-GB', timeOptions).format(endDateLocal);
-
-      allEvents.value.push({
-        'Event Name': nextEv.name.text,
-        'Event Image': nextEv.logo.original.url,
-        'Event Info': nextEv.description.text,
-        'Date (UTC)': formattedDateUTC,
-        'Start Time (UTC)': formattedStartTimeUTC,
-        'End Time (UTC)': formattedEndTimeUTC,
-        'Date (Local)': formattedDateLocal,
-        'Start Time (Local)': formattedStartTimeLocal,
-        'End Time (Local)': formattedEndTimeLocal,
-        'Event Location': address,
-        'URL': nextEv.url,
-      });
-
-      typeof window !== 'undefined' ? localStorage.setItem('events', JSON.stringify(allEvents.value)) : null;
-    }
   }
 
   const filteredEvents = computed(() => {
@@ -197,6 +125,10 @@
     document.body.appendChild(a);
     a.click();
   }
+
+  onMounted(() => {
+    getEvents();
+  })
 </script>
 
 <style lang="css">
