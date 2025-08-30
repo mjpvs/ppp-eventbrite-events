@@ -5,6 +5,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     EB_TOKEN: process.env.EB_TOKEN,
     EB_ORG_ID: process.env.EB_ORG_ID,
+    public: {
+      G_API_KEY: process.env.G_API_KEY,
+      MAP_ID: process.env.MAP_ID,
+    }
   },
   app: {
     head: {

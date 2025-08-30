@@ -67,11 +67,17 @@ export default defineEventHandler(async() => {
             const nextEv = rawEvents[x];
 
             let address = 'Online';
+
+            let lat = '';
+            let lon = '';
     
             if (nextEv.venue && nextEv.venue.address) {
                 const venue = nextEv.venue;
         
                 address = `${venue.name}, ${venue.address.localized_address_display}`;
+
+                lat = venue.latitude;
+                lon = venue.longitude;
             }
         
             const startDateUTC = new Date(nextEv.start.utc);
@@ -110,6 +116,8 @@ export default defineEventHandler(async() => {
                 'Start Time (Local)': formattedStartTimeLocal,
                 'End Time (Local)': formattedEndTimeLocal,
                 'Event Location': address,
+                'lat': lat,
+                'lon': lon,
                 'URL': nextEv.url,
             });
         }
