@@ -889,6 +889,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@googlemaps/js-api-loader@npm:^1.16.2":
+  version: 1.16.10
+  resolution: "@googlemaps/js-api-loader@npm:1.16.10"
+  checksum: 10c0/0b8eb8de6aeb7473df3ca044638356486a711910518ee4439b8c703e8b6db4b273b464b08fa5a9255cc9e96df45fc74c4b4de94de427c92d3f5f59ab60b211cb
+  languageName: node
+  linkType: hard
+
+"@googlemaps/markerclusterer@npm:^2.4.0":
+  version: 2.6.2
+  resolution: "@googlemaps/markerclusterer@npm:2.6.2"
+  dependencies:
+    "@types/supercluster": "npm:^7.1.3"
+    fast-equals: "npm:^5.2.2"
+    supercluster: "npm:^8.0.1"
+  checksum: 10c0/bfe4ffef9dc9f635fca93968d71b2019c936b46480e38dbfb885c3bed1589c9a353e428880a018f8fbc50c2cb16257c4822742d2e49f963dd9ff5d7ffe12f9cb
+  languageName: node
+  linkType: hard
+
 "@grpc/grpc-js@npm:^1.10.9":
   version: 1.13.4
   resolution: "@grpc/grpc-js@npm:1.13.4"
@@ -2457,6 +2475,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/geojson@npm:*":
+  version: 7946.0.16
+  resolution: "@types/geojson@npm:7946.0.16"
+  checksum: 10c0/1ff24a288bd5860b766b073ead337d31d73bdc715e5b50a2cee5cb0af57a1ed02cc04ef295f5fa68dc40fe3e4f104dd31282b2b818a5ba3231bc1001ba084e3c
+  languageName: node
+  linkType: hard
+
 "@types/http-errors@npm:*":
   version: 2.0.5
   resolution: "@types/http-errors@npm:2.0.5"
@@ -2580,6 +2605,15 @@ __metadata:
     "@types/node": "npm:*"
     "@types/send": "npm:*"
   checksum: 10c0/8ad86a25b87da5276cb1008c43c74667ff7583904d46d5fcaf0355887869d859d453d7dc4f890788ae04705c23720e9b6b6f3215e2d1d2a4278bbd090a9268dd
+  languageName: node
+  linkType: hard
+
+"@types/supercluster@npm:^7.1.3":
+  version: 7.1.3
+  resolution: "@types/supercluster@npm:7.1.3"
+  dependencies:
+    "@types/geojson": "npm:*"
+  checksum: 10c0/0d55dad98df0990fc38a7bb64dc23dda46014187c0d7638e6f2b6717ba8931b13e5b1d394789833a2ac822014c977ef64623dffd81a0bbf39e52c53c8183741f
   languageName: node
   linkType: hard
 
@@ -4814,10 +4848,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-deep-equal@npm:^3.1.1":
+"fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
   checksum: 10c0/40dedc862eb8992c54579c66d914635afbec43350afbbe991235fdcb4e3a8d5af1b23ae7e79bef7d4882d0ecee06c3197488026998fb19f72dc95acff1d1b1d0
+  languageName: node
+  linkType: hard
+
+"fast-equals@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "fast-equals@npm:5.2.2"
+  checksum: 10c0/2bfeac6317a8959a00e2134749323557e5df6dea3af24e4457297733eace8ce4313fcbca2cf4532f3a6792607461e80442cd8d3af148d5c2e4e98ad996d6e5b5
   languageName: node
   linkType: hard
 
@@ -5998,6 +6039,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"kdbush@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "kdbush@npm:4.0.2"
+  checksum: 10c0/d50183b299c57e2573114e902ab47aed7494be3ca41b66d456779ecc3b2f153f491de341f9609965414784f728894f9a9001152eb9f3a40cd3755521c06a45a3
+  languageName: node
+  linkType: hard
+
 "kleur@npm:^3.0.3":
   version: 3.0.3
   resolution: "kleur@npm:3.0.3"
@@ -6983,6 +7031,7 @@ __metadata:
     nuxt: "npm:^4.0.3"
     vue: "npm:^3.5.18"
     vue-router: "npm:^4.5.1"
+    vue3-google-map: "npm:^0.23.1"
   languageName: unknown
   linkType: soft
 
@@ -8990,6 +9039,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"supercluster@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "supercluster@npm:8.0.1"
+  dependencies:
+    kdbush: "npm:^4.0.2"
+  checksum: 10c0/79121e6dbff67b3036ea6651f3baddb942478830ba3ecbc27455715ab5bd269de8381dc04618c0c15963346ea2ed0f81cd5f767c2978a63e2841807c73445d57
+  languageName: node
+  linkType: hard
+
 "superjson@npm:^2.2.2":
   version: 2.2.2
   resolution: "superjson@npm:2.2.2"
@@ -9826,6 +9884,19 @@ __metadata:
   peerDependencies:
     vue: ^3.2.0
   checksum: 10c0/89fbc11e46c19a4c4d62b807596a0210726dc09bd9e6a319ded1ac0951e6933e581c56acd1b846d3891673b9bad7348564d28ecd8424126d63578b3b5d291d96
+  languageName: node
+  linkType: hard
+
+"vue3-google-map@npm:^0.23.1":
+  version: 0.23.1
+  resolution: "vue3-google-map@npm:0.23.1"
+  dependencies:
+    "@googlemaps/js-api-loader": "npm:^1.16.2"
+    "@googlemaps/markerclusterer": "npm:^2.4.0"
+    fast-deep-equal: "npm:^3.1.3"
+  peerDependencies:
+    vue: ^3
+  checksum: 10c0/cffc1444cb7cc02dd84fe2d5afa0e7185a3ee16884c984574fb746401450c18ddcf4bd07a5889b01d85206a042ccca451594a6aeabbec143d4e7790b230f11f6
   languageName: node
   linkType: hard
 

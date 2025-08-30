@@ -41,7 +41,7 @@ export default defineEventHandler(async() => {
 
     const setLastUpdated = async() => {
         try {        
-            const docRef = await db.collection("lastUpdated").add({
+            await db.collection("lastUpdated").add({
                 date: Date.now(),
             });
         } catch (e) {
@@ -156,15 +156,15 @@ export default defineEventHandler(async() => {
             }
 
             snapshot.forEach(doc => {
-                // Add the document data along with its ID
-                allEvents.push({ id: doc.id, ...doc.data() });
+                const parsedEvents = JSON.parse(doc.data().eventData)
+                allEvents = allEvents.concat(parsedEvents);
             });
         } catch (e) {
             console.error('Error retrieving events:', e);
         }
     }
 
-    const storeEventsInDB = async() => {
+    const storeEventsInDB = async () => {
         try {
             const collectionRef = db.collection("events");
             const snapshot = await collectionRef.get();
@@ -175,14 +175,15 @@ export default defineEventHandler(async() => {
             });
             await deleteBatch.commit();
 
-            const addBatch = db.batch();
+            const chunkSize = 200;
 
-            allEvents.forEach(event => {
-                const docRef = collectionRef.doc();
-                addBatch.set(docRef, event);
-            });
+            for (let i = 0; i < allEvents.length; i += chunkSize) {
+                const chunk = allEvents.slice(i, i + chunkSize);
 
-            await addBatch.commit();
+                await db.collection("events").add({
+                    eventData: JSON.stringify(chunk)
+                })
+            }
         } catch (e) {
             console.error('Error adding events:', e);
         }
