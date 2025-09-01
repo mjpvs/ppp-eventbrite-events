@@ -1,8 +1,10 @@
 <template>
-    <div v-show="isLoading">
-      Loading...
+    <div v-show="mapLoading">
+      <div class="container">
+        Loading...
+      </div>
     </div>
-    <div v-show="!isLoading">
+    <div v-show="!mapLoading">
         <div id="map-container">
 
         </div>
