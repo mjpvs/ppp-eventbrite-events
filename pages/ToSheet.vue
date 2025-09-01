@@ -66,6 +66,10 @@
 <script setup>
   import { ref, computed, onMounted } from 'vue';
 
+  useHead({
+    title: 'Download Upcoming People Planet Pint & Pastry Events',
+  });
+
   const allEvents = ref([]);
 
   const includeOnline = ref(true);

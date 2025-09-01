@@ -16,6 +16,10 @@
 
     const { G_API_KEY, MAP_ID } = useRuntimeConfig().public;
 
+    useHead({
+        title: 'People Planet Pint & Pastry Events Map',
+    });
+
     const center = { lat: 51.5, lng: 0 }
 
     const allEvents = ref([]);

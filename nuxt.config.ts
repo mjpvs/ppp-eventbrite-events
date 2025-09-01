@@ -12,7 +12,6 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'People Planet Pint | Upcoming Events',
       link: [
         {
           rel: 'stylesheet',
