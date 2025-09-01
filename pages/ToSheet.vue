@@ -38,6 +38,7 @@
             <td>Start Time (Local)</td>
             <td>End Time (Local)</td>
             <td>Event Location</td>
+            <td>Country</td>
             <td>URL</td>
           </tr>
         </thead>
@@ -53,6 +54,7 @@
             <td>{{ event['Start Time (Local)'] }}</td>
             <td>{{ event['End Time (Local)'] }}</td>
             <td>{{ event['Event Location'] }}</td>
+            <td>{{ event['Country'] }}</td>
             <td>{{ event['URL'] }}</td>
           </tr>
         </tbody>
@@ -67,7 +69,6 @@
   const allEvents = ref([]);
 
   const includeOnline = ref(true);
-  const includePrivate = ref(true);
   const isLoading = ref(true);
 
   const resetAll = () => {

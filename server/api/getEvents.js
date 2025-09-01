@@ -67,6 +67,7 @@ export default defineEventHandler(async() => {
             const nextEv = rawEvents[x];
 
             let address = 'Online';
+            let country = 'Online';
 
             let lat = '';
             let lon = '';
@@ -78,6 +79,8 @@ export default defineEventHandler(async() => {
 
                 lat = venue.latitude;
                 lon = venue.longitude;
+
+                country = venue.address.country;
             }
         
             const startDateUTC = new Date(nextEv.start.utc);
@@ -116,6 +119,7 @@ export default defineEventHandler(async() => {
                 'Start Time (Local)': formattedStartTimeLocal,
                 'End Time (Local)': formattedEndTimeLocal,
                 'Event Location': address,
+                'Country': country,
                 'lat': lat,
                 'lon': lon,
                 'URL': nextEv.url,
