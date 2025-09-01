@@ -72,7 +72,7 @@
 
   const allEvents = ref([]);
 
-  const includeOnline = ref(true);
+  const includeOnline = ref(false);
   const isLoading = ref(true);
 
   const resetAll = () => {
@@ -104,16 +104,25 @@
       }
 
       return true;
+    }).sort((evOne, evTwo) => {
+      return new Date(evOne.fullDate) > new Date(evTwo.fullDate);
     });
   });
 
-  const jsonToCsv = (events) => {
-    let csv = '';
-    let headers = Object.keys(events[0]);
-    csv += headers.join(',') + '\n';
+  const jsonToCsv = (events, excludedFields = []) => {
+    if (!events || events.length === 0) {
+        return '';
+    }
+
+    let allHeaders = Object.keys(events[0]);
+
+    let headers = allHeaders.filter(header => !excludedFields.includes(header));
+    
+    let csv = headers.join(',') + '\n';
 
     events.forEach(function (row) {
         let data = headers.map(header => JSON.stringify(row[header])).join(',');
+        
         csv += data + '\n';
     });
 
@@ -121,7 +130,7 @@
   }
 
   const downloadSheet = () => {
-    let csvData = jsonToCsv(filteredEvents.value);
+    let csvData = jsonToCsv(filteredEvents.value, ['lat', 'lon', 'fulldate']);
     let blob = new Blob([csvData], { type: 'text/csv' });
     let url = window.URL.createObjectURL(blob);
     let a = document.createElement('a');

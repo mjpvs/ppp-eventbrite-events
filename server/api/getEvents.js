@@ -120,6 +120,7 @@ export default defineEventHandler(async() => {
                 'End Time (Local)': formattedEndTimeLocal,
                 'Event Location': address,
                 'Country': country,
+                'fulldate': startDateUTC,
                 'lat': lat,
                 'lon': lon,
                 'URL': nextEv.url,
