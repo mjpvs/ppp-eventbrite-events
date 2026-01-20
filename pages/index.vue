@@ -81,7 +81,7 @@
     })
 
     const getPinElement = (eventName) => {
-        let bgColour = '#6552dd';
+        let bgColour = '#0652DD';
         let iconName = 'beer-mug-empty';
 
         eventName = eventName.toLowerCase();
