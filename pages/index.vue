@@ -101,6 +101,12 @@
         } else if (eventName.indexOf('walk') !== -1) {
             bgColour = '#1ca379';
             iconName = 'person-walking'
+        } else if (eventName.indexOf('book club') !== -1) {
+            bgColour = '#ff9900';
+            iconName = 'book'
+        } else if (eventName.indexOf('presents') !== -1) {
+            bgColour = '#1ca379';
+            iconName = 'person-chalkboard'
         }
 
         const pin = new google.maps.marker.PinElement({
