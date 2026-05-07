@@ -111,7 +111,7 @@
             eventName.indexOf('film') !== -1
             || eventName.indexOf('neb') !== -1
         ) {
-            bgColour = '#1ca379';
+            bgColour = '#000000';
             iconName = 'film'
         }
 
