@@ -107,6 +107,12 @@
         } else if (eventName.indexOf('presents') !== -1) {
             bgColour = '#1ca379';
             iconName = 'person-chalkboard'
+        } else if (
+            eventName.indexOf('film') !== -1
+            || eventName.indexOf('neb') !== -1
+        ) {
+            bgColour = '#1ca379';
+            iconName = 'film'
         }
 
         const pin = new google.maps.marker.PinElement({
